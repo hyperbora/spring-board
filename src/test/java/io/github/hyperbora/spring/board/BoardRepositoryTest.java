@@ -1,0 +1,56 @@
+package io.github.hyperbora.spring.board;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import io.github.hyperbora.spring.board.domain.Board;
+import io.github.hyperbora.spring.board.domain.Member;
+import io.github.hyperbora.spring.board.domain.Role;
+import io.github.hyperbora.spring.board.persistence.BoardRepository;
+import io.github.hyperbora.spring.board.persistence.MemberRepository;
+
+@SpringBootTest
+public class BoardRepositoryTest {
+
+    @Autowired
+    private MemberRepository memberRepo;
+
+    @Autowired
+    private BoardRepository boardRepo;
+
+    @Test
+    public void testInsert() {
+        Member member1 = new Member();
+        member1.setId("member");
+        member1.setPassword("member123");
+        member1.setName("아무개");
+        member1.setRole(Role.ROLE_MEMBER);
+        member1.setEnabled(true);
+        memberRepo.save(member1);
+
+        Member member2 = new Member();
+        member2.setId("admin");
+        member2.setPassword("admin123");
+        member2.setName("홍길동");
+        member2.setRole(Role.ROLE_ADMIN);
+        member2.setEnabled(true);
+        memberRepo.save(member2);
+
+        for (int i = 1; i <= 13; i++) {
+            Board board = new Board();
+            board.setMember(member1);
+            board.setTitle(member1.getName() + "가 등록한 게시글 " + i);
+            board.setContent(member1.getName() + "가 등록한 게시글 " + i + "입니다.");
+            boardRepo.save(board);
+        }
+
+        for (int i = 1; i <= 13; i++) {
+            Board board = new Board();
+            board.setMember(member2);
+            board.setTitle(member2.getName() + "가 등록한 게시글 " + i);
+            board.setContent(member2.getName() + "가 등록한 게시글 " + i + "입니다.");
+            boardRepo.save(board);
+        }
+    }
+}
