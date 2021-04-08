@@ -1,10 +1,8 @@
 package io.github.hyperbora.spring.board;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import io.github.hyperbora.spring.board.domain.Board;
 import io.github.hyperbora.spring.board.persistence.BoardRepository;
 import io.github.hyperbora.spring.board.persistence.MemberRepository;
 
@@ -17,17 +15,27 @@ public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepo;
 
-    @Test
-    public void testGetBoard() {
-        Board board = boardRepo.findById(1L).get();
+    // @Test
+    // public void testGetBoardList() {
+    // Member member = memberRepo.findById("member").get();
 
-        System.out.println("[ " + board.getSeq() + "번 게시 글 상세 정보 ]");
-        System.out.println("제목\t : " + board.getTitle());
-        System.out.println("작성자\t : " + board.getMember().getName());
-        System.out.println("내용 \t : " + board.getContent());
-        System.out.println("등록일\t : " + board.getCreateDate());
-        System.out.println("조회수 \t : " + board.getCnt());
-    }
+    // System.out.println("[ " + member.getName() + "가 등록한 게시글 ]");
+    // for (Board board : member.getBoardList()) {
+    // System.out.println("---> " + board.toString());
+    // }
+    // }
+
+    // @Test
+    // public void testGetBoard() {
+    // Board board = boardRepo.findById(1L).get();
+
+    // System.out.println("[ " + board.getSeq() + "번 게시 글 상세 정보 ]");
+    // System.out.println("제목\t : " + board.getTitle());
+    // System.out.println("작성자\t : " + board.getMember().getName());
+    // System.out.println("내용 \t : " + board.getContent());
+    // System.out.println("등록일\t : " + board.getCreateDate());
+    // System.out.println("조회수 \t : " + board.getCnt());
+    // }
 
     // @Test
     // public void testInsert() {
