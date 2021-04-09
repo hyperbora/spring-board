@@ -2,6 +2,7 @@ package io.github.hyperbora.spring.board.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.github.hyperbora.spring.board.domain.Board;
+import io.github.hyperbora.spring.board.security.SecurityUser;
 import io.github.hyperbora.spring.board.service.BoardService;
 
 @Controller
@@ -36,7 +38,8 @@ public class BoardController {
     }
 
     @PostMapping("/insertBoard")
-    public String insertBoard(Board board) {
+    public String insertBoard(Board board, @AuthenticationPrincipal SecurityUser principal) {
+        board.setMember(principal.getMember());
         boardService.insertBoard(board);
         return "redirect:getBoardList";
     }
