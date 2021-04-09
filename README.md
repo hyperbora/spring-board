@@ -21,9 +21,20 @@
 
 ## 4) 기술 스택
 
-- Spring Boot 2.0 >
+- Spring Boot 2.4.4
 - JPA
+- Hibernate
 - Thymeleaf
 - H2
 - Lombok
 - Spring Security
+
+## 5) 사용법
+
+- 3번 명령어로 최초 실행하면 application.properties에 있는
+
+  member.user.id와 member.admin.id에 해당하는 값을 참조하여
+
+  아이디를 설정하고 패스워드는 랜덤으로 설정하여 계정을 생성합니다.
+
+  패스워드는 콘솔창에 출력됩니다.
