@@ -28,6 +28,7 @@
 - H2
 - Lombok
 - Spring Security
+- Querydsl
 
 ## 5) 사용법
 
