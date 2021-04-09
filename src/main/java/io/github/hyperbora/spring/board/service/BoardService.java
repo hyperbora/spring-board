@@ -3,6 +3,7 @@ package io.github.hyperbora.spring.board.service;
 import org.springframework.data.domain.Page;
 
 import io.github.hyperbora.spring.board.domain.Board;
+import io.github.hyperbora.spring.board.domain.Search;
 
 public interface BoardService {
     void insertBoard(Board board);
@@ -13,5 +14,5 @@ public interface BoardService {
 
     Board getBoard(Board board);
 
-    Page<Board> getBoardList(Board board);
+    Page<Board> getBoardList(Search search);
 }
