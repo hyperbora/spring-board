@@ -1,63 +1,83 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게시글 상세</title>
-</head>
+  </head>
 
-<body th:align="center">
+  <body th:align="center">
     <h1>게시글 상세</h1>
     <form th:action="@{/board/updateBoard}" method="POST">
-        <table th:align="center" border="1" th:cellpadding="0" th:cellspacing="0">
-            <tr>
-                <td bgcolor="orange" th:text="제목" width="80"></td>
-                <td>
-                    <input name="seq" type="hidden" th:value="${board.seq}">
-                    <input name="title" type="text" th:value="${board.title}">
-                </td>
-            </tr>
-            <tr>
-                <td bgcolor="orange" th:text="작성자"></td>
-                <td th:text="${board.member.name}"></td>
-            </tr>
-            <tr>
-                <td bgcolor="orange" th:text="내용"></td>
-                <td><textarea name="content" th:text="${board.content}" cols="40" rows="10"></textarea></td>
-            </tr>
-            <tr>
-                <td bgcolor="orange" th:text="등록일"></td>
-                <td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
-            </tr>
-            <tr>
-                <td bgcolor="orange" th:text="조회수"></td>
-                <td th:text="${board.cnt}"></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="submit" value="게시글 수정">
-                </td>
-            </tr>
-        </table>
+      <table th:align="center" border="1" th:cellpadding="0" th:cellspacing="0">
+        <tr>
+          <td bgcolor="orange" th:text="제목" width="80"></td>
+          <td>
+            <input name="seq" type="hidden" th:value="${board.seq}" />
+            <input name="title" type="text" th:value="${board.title}" />
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="orange" th:text="작성자"></td>
+          <td th:text="${board.member.name}"></td>
+        </tr>
+        <tr>
+          <td bgcolor="orange" th:text="내용"></td>
+          <td>
+            <textarea
+              name="content"
+              th:text="${board.content}"
+              cols="40"
+              rows="10"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="orange" th:text="등록일"></td>
+          <td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
+        </tr>
+        <tr>
+          <td bgcolor="orange" th:text="조회수"></td>
+          <td th:text="${board.cnt}"></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <input type="submit" value="게시글 수정" />
+          </td>
+        </tr>
+      </table>
     </form>
-    <form name="deleteBoardForm" action="/board/deleteBoard" style="display:none;" method="POST">
-        <input name="seq" type="hidden" th:value="${board.seq}" />
-        <input type="submit" />
+    <form
+      sec:authorize="hasRole('ROLE_ADMIN')"
+      name="deleteBoardForm"
+      action="/board/deleteBoard"
+      style="display: none"
+      method="POST"
+    >
+      <input name="seq" type="hidden" th:value="${board.seq}" />
+      <input type="submit" />
     </form>
     <a th:href="@{/board/insertBoard}">글등록</a>&nbsp;&nbsp;&nbsp;
-    <a href="#" onclick="sendDelete(event);">글삭제</a>&nbsp;&nbsp;&nbsp;
+    <a
+      sec:authorize="hasRole('ROLE_ADMIN')"
+      href="#"
+      onclick="sendDelete(event);"
+      >글삭제</a
+    >&nbsp;&nbsp;&nbsp;
     <a th:href="@{/board/getBoardList}">글목록</a>
-</body>
-<script>
+  </body>
+  <script sec:authorize="hasRole('ROLE_ADMIN')">
     function sendDelete(event) {
-        event.preventDefault() && event.stopPropagation();
-        if (confirm("해당 게시글을 삭제 하시겠습니까?")) {
-            var form = document.forms['deleteBoardForm'];
-            form.submit();
-        }
+      event.preventDefault() && event.stopPropagation();
+      if (confirm('해당 게시글을 삭제 하시겠습니까?')) {
+        var form = document.forms['deleteBoardForm'];
+        form.submit();
+      }
     }
-</script>
-
+  </script>
 </html>
