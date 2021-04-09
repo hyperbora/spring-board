@@ -40,4 +40,16 @@ public class BoardController {
         boardService.insertBoard(board);
         return "redirect:getBoardList";
     }
+
+    @PostMapping("/updateBoard")
+    public String updateBoard(Board board) {
+        boardService.updateBoard(board);
+        return "redirect:getBoardList";
+    }
+
+    @PostMapping("/deleteBoard")
+    public String deleteBoard(Board board) {
+        boardService.deleteBoard(board);
+        return "redirect:getBoardList";
+    }
 }
