@@ -19,12 +19,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         security.authorizeRequests().antMatchers("/", "/system/**").permitAll();
         security.authorizeRequests().antMatchers("/board/**").authenticated();
-        security.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+        security.authorizeRequests().antMatchers("/admin/**", "/h2-console/**").hasRole("ADMIN");
 
         security.csrf().disable();
         security.formLogin().loginPage("/system/login").defaultSuccessUrl("/board/getBoardList", true);
         security.exceptionHandling().accessDeniedPage("/system/accessDenied");
         security.logout().logoutUrl("/system/logout").invalidateHttpSession(true).logoutSuccessUrl("/");
+        security.headers().frameOptions().sameOrigin();
     }
 
     @Bean
