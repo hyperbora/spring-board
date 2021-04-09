@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.github.hyperbora.spring.board.domain.Board;
@@ -20,5 +21,11 @@ public class BoardController {
         Page<Board> boardList = boardService.getBoardList(board);
         model.addAttribute("boardList", boardList);
         return "board/getBoardList";
+    }
+
+    @GetMapping("/getBoard")
+    public String getBoard(Board board, Model model) {
+        model.addAttribute("board", boardService.getBoard(board));
+        return "board/getBoard";
     }
 }
