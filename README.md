@@ -2,7 +2,7 @@
 
 ## 1) 소개
 
-### 스프링 부트로 만든 게시판 프로젝트
+### 스프링 부트로 만든 게시판 프로젝트 [Github](https://github.com/hyperbora/spring-board)
 
 ## 2) 필수사항
 
