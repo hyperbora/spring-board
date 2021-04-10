@@ -115,10 +115,50 @@
           <a
             class="btn btn-danger btn-sm"
             sec:authorize="hasRole('ROLE_ADMIN')"
-            href="#"
-            onclick="sendDelete(event);"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
             >글삭제</a
           >
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="deleteModal"
+            tabindex="-1"
+            aria-labelledby="deleteModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel">게시글 삭제</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">해당 게시글을 삭제 하시겠습니까?</div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    아니요
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="sendDelete(event);"
+                  >
+                    예
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal End-->
           <a class="btn btn-primary btn-sm" th:href="@{/board/getBoardList}"
             >글목록</a
           >
@@ -129,10 +169,8 @@
   <script sec:authorize="hasRole('ROLE_ADMIN')">
     function sendDelete(event) {
       event.preventDefault() && event.stopPropagation();
-      if (confirm('해당 게시글을 삭제 하시겠습니까?')) {
-        var form = document.forms['deleteBoardForm'];
-        form.submit();
-      }
+      var form = document.forms['deleteBoardForm'];
+      form.submit();
     }
   </script>
   <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
