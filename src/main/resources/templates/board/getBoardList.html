@@ -8,11 +8,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <title>게시글 목록</title>
   </head>
 
   <body th:align="center">
-    <h1>게시글 목록</h1>
+    <h1 class="h1">게시글 목록</h1>
 
     <span sec:authorize="isAuthenticated()">
       <b>
@@ -21,8 +22,61 @@
         </font>
       </b>
       님 환영합니다.............................
-      <a th:href="@{/system/logout}">로그아웃</a>&nbsp;&nbsp;&nbsp;
-      <a th:href="@{/admin/adminPage}">게시판관리</a>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        th:onclick="'location.href=\'' + @{/admin/adminPage} + '\''"
+      >
+        게시판관리
+      </button>
+      <!-- th:onclick="'location.href=\'' + @{/system/logout} + '\''" -->
+      <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#logoutModal"
+      >
+        로그아웃
+      </button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="logoutModal"
+        tabindex="-1"
+        aria-labelledby="logoutModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">로그아웃</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">로그아웃 하시겠습니까?</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                아니요
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                th:onclick="'location.href=\'' + @{/system/logout} + '\''"
+              >
+                예
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </span>
 
     <hr />
@@ -84,4 +138,5 @@
     <br />
     <a th:href="@{/board/insertBoard}">게시글 등록</a>
   </body>
+  <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 </html>
