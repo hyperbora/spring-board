@@ -18,6 +18,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         security.userDetailsService(userDetailsService);
 
         security.authorizeRequests().antMatchers("/", "/system/**").permitAll();
+        security.authorizeRequests()
+                .antMatchers("android-chrome-192x192.png", "apple-touch-icon.png", "favicon-32x32.png",
+                        "android-chrome-512x512.png", "favicon-16x16.png", "favicon.ico", "site.webmanifest")
+                .permitAll();
+        security.authorizeRequests().antMatchers("/js/**", "/css/**").permitAll();
         security.authorizeRequests().antMatchers("/board/**").authenticated();
         security.authorizeRequests().antMatchers("/admin/**", "/h2-console/**").hasRole("ADMIN");
 

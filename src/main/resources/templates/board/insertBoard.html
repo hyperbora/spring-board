@@ -8,32 +8,61 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <title>새 글 등록</title>
   </head>
 
-  <body th:align="center">
+  <body class="m-5">
     <h1>게시글 등록</h1>
-    <form th:action="@{/board/insertBoard}" method="post">
-      <table th:align="center" border="1" th:cellpadding="0" th:cellspacing="0">
-        <tr>
-          <td bgcolor="orange" th:text="제목" width="80"></td>
-          <td><input name="title" type="text" size="50" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="orange" th:text="작성자"></td>
-          <td><span sec:authentication="principal.member.name"></span></td>
-        </tr>
-        <tr>
-          <td bgcolor="orange" th:text="내용"></td>
-          <td><textarea name="content" cols="50" rows="10"></textarea></td>
-        </tr>
-        <tr>
-          <td colspan="2" align="center">
-            <input type="submit" value="게시글 등록" />
-          </td>
-        </tr>
-      </table>
+    <form
+      th:action="@{/board/insertBoard}"
+      method="post"
+      class="border border-dark border-2 p-3 rounded-3"
+    >
+      <div class="row mb-3">
+        <label for="title" class="col-sm-2 col-form-label">제목</label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="username" class="col-sm-2 col-form-label">작성자</label>
+        <div class="col-sm-10">
+          <span
+            class="form-control"
+            sec:authentication="principal.member.name"
+            disabled
+            readonly
+          ></span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="content" class="col-sm-2 col-form-label">내용</label>
+        <div class="col-sm-10">
+          <textarea
+            type="text"
+            class="form-control"
+            id="content"
+            name="content"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+      </div>
+      <input type="submit" class="btn btn-primary btn-sm" value="등록" />
     </form>
-    <a th:href="@{/board/getBoardList}">글목록</a>
+    <a
+      class="btn btn-primary btn-sm"
+      th:href="@{/board/getBoardList}"
+      style="margin-top: 10px"
+      >글목록</a
+    >
   </body>
+  <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 </html>
