@@ -29,6 +29,7 @@
 - Lombok
 - Spring Security
 - Querydsl
+- Bootstrap v5.0
 
 ## 5) 사용법
 
