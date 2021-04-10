@@ -10,6 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <title>게시글 목록</title>
+    <style>
+      .board_table_title {
+        text-decoration: none;
+      }
+      .board_table_title:hover {
+        color: red;
+      }
+    </style>
   </head>
 
   <body th:align="center">
@@ -21,7 +29,8 @@
           <span sec:authentication="principal.member.name"></span>
         </font>
       </b>
-      님 환영합니다.............................
+      님 환영합니다!
+      <div style="margin-top: 10px"></div>
       <a class="btn btn-primary btn-sm" th:href="@{/admin/adminPage}"
         >게시판관리</a
       >
@@ -76,7 +85,11 @@
     <hr />
 
     <!-- 검색 시작 -->
-    <form th:action="@{/board/getBoardList}" method="POST">
+    <form
+      th:action="@{/board/getBoardList}"
+      method="POST"
+      style="margin-bottom: 20px"
+    >
       <table
         th:align="center"
         border="1"
@@ -98,35 +111,27 @@
     </form>
     <!-- 검색 종료 -->
 
-    <table
-      th:align="center"
-      border="1"
-      th:cellpadding="0"
-      th:cellspacing="0"
-      th:width="700"
-    >
+    <table class="table table-striped">
       <tr>
-        <th bgcolor="orange" width="50">번호</th>
-        <th bgcolor="orange" width="400">제목</th>
-        <th bgcolor="orange" width="100">작성자</th>
-        <th bgcolor="orange" width="100">등록일</th>
-        <th bgcolor="orange" width="50">조회수</th>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>등록일</th>
+        <th>조회수</th>
       </tr>
 
       <tr th:each="board, state : ${boardList}">
-        <td th:text="${state.count}" th:align="center"></td>
+        <td th:text="${state.count}"></td>
         <td>
           <a
             th:href="@{/board/getBoard(seq=${board.seq})}"
             th:text="${board.title}"
+            class="board_table_title"
           ></a>
         </td>
-        <td th:text="${board.member.name}" th:align="center"></td>
-        <td
-          th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"
-          th:align="center"
-        ></td>
-        <td th:text="${board.cnt}" th:align="center"></td>
+        <td th:text="${board.member.name}"></td>
+        <td th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${board.cnt}"></td>
       </tr>
     </table>
     <br />
