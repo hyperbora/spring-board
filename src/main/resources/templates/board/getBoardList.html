@@ -22,22 +22,16 @@
         </font>
       </b>
       님 환영합니다.............................
-      <button
-        type="button"
-        class="btn btn-primary btn-sm"
-        th:onclick="'location.href=\'' + @{/admin/adminPage} + '\''"
+      <a class="btn btn-primary btn-sm" th:href="@{/admin/adminPage}"
+        >게시판관리</a
       >
-        게시판관리
-      </button>
-      <!-- th:onclick="'location.href=\'' + @{/system/logout} + '\''" -->
-      <button
-        type="button"
+      <a
         class="btn btn-danger btn-sm"
         data-bs-toggle="modal"
         data-bs-target="#logoutModal"
       >
         로그아웃
-      </button>
+      </a>
       <!-- Modal -->
       <div
         class="modal fade"
@@ -97,7 +91,7 @@
               <option value="CONTENT">내용</option>
             </select>
             <input name="searchKeyword" type="text" />
-            <input type="submit" value="검색" />
+            <input class="btn btn-primary btn-sm" type="submit" value="검색" />
           </td>
         </tr>
       </table>
@@ -136,7 +130,9 @@
       </tr>
     </table>
     <br />
-    <a th:href="@{/board/insertBoard}">게시글 등록</a>
+    <a class="btn btn-primary btn-sm" th:href="@{/board/insertBoard}"
+      >게시글 등록</a
+    >
   </body>
   <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 </html>
