@@ -1,5 +1,8 @@
 package io.github.hyperbora.spring.board;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,9 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import io.github.hyperbora.spring.board.domain.Board;
 import io.github.hyperbora.spring.board.domain.Member;
+import io.github.hyperbora.spring.board.domain.Reply;
 import io.github.hyperbora.spring.board.domain.Role;
 import io.github.hyperbora.spring.board.persistence.BoardRepository;
 import io.github.hyperbora.spring.board.persistence.MemberRepository;
+import io.github.hyperbora.spring.board.persistence.ReplyRepository;
 
 @SpringBootTest
 public class BoardRepositoryTest {
@@ -19,6 +24,9 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepo;
+
+    @Autowired
+    private ReplyRepository replyRepo;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -77,6 +85,20 @@ public class BoardRepositoryTest {
     // board.setTitle(member2.getName() + "가 등록한 게시글 " + i);
     // board.setContent(member2.getName() + "가 등록한 게시글 " + i + "입니다.");
     // boardRepo.save(board);
+    // }
+    // }
+
+    // @Test
+    // public void insertReply() {
+    // Optional<Member> member = memberRepo.findById("admin");
+    // if (member.isPresent()) {
+    // Member _member = member.get();
+    // List<Board> boardList = _member.getBoardList();
+    // Reply reply = new Reply();
+    // reply.setBoard(boardList.get(0));
+    // reply.setContent("댓글입니다.");
+    // reply.setMember(_member);
+    // replyRepo.save(reply);
     // }
     // }
 }
