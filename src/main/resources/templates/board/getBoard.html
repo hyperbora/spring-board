@@ -1,177 +1,115 @@
 <!DOCTYPE html>
-<html
-  lang="ko"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <title>게시글 상세</title>
-  </head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-  <body class="m-5">
-    <h1>게시글 상세</h1>
-    <form
-      th:action="@{/board/updateBoard}"
-      method="POST"
-      class="border border-dark border-2 p-3 rounded-3"
-    >
-      <div class="row mb-3">
-        <label for="title" class="col-sm-2 col-form-label">제목</label>
-        <div class="col-sm-10">
-          <input name="seq" type="hidden" th:value="${board.seq}" />
-          <input
-            type="text"
-            class="form-control"
-            id="title"
-            name="title"
-            th:value="${board.title}"
-            required
-          />
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <title>게시글 상세</title>
+</head>
+
+<body class="m-5">
+  <h1>게시글 상세</h1>
+  <form th:action="@{/board/updateBoard}" method="POST" class="border border-dark border-2 p-3 rounded-3">
+    <div class="row mb-3">
+      <label for="title" class="col-sm-2 col-form-label">제목</label>
+      <div class="col-sm-10">
+        <input name="seq" type="hidden" th:value="${board.seq}" />
+        <input type="text" class="form-control" id="title" name="title" th:value="${board.title}" required />
       </div>
-      <div class="row mb-3">
-        <label for="username" class="col-sm-2 col-form-label">작성자</label>
-        <div class="col-sm-10">
-          <span
-            class="form-control"
-            id="username"
-            name="username"
-            th:text="${board.member.name}"
-            disabled
-            readonly
-          ></span>
-        </div>
+    </div>
+    <div class="row mb-3">
+      <label for="username" class="col-sm-2 col-form-label">작성자</label>
+      <div class="col-sm-10">
+        <span class="form-control" id="username" name="username" th:text="${board.member.name}" disabled
+          readonly></span>
       </div>
-      <div class="row mb-3">
-        <label for="content" class="col-sm-2 col-form-label">내용</label>
-        <div class="col-sm-10">
-          <textarea
-            type="text"
-            class="form-control"
-            id="content"
-            name="content"
-            th:text="${board.content}"
-            rows="3"
-            required
-          ></textarea>
-        </div>
+    </div>
+    <div class="row mb-3">
+      <label for="content" class="col-sm-2 col-form-label">내용</label>
+      <div class="col-sm-10">
+        <textarea type="text" class="form-control" id="content" name="content" th:text="${board.content}" rows="3"
+          required></textarea>
       </div>
-      <div class="row mb-3">
-        <label for="create_date" class="col-sm-2 col-form-label">등록일</label>
-        <div class="col-sm-10">
-          <span
-            class="form-control"
-            id="create_date"
-            name="create_date"
-            th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}"
-            disabled
-            readonly
-          ></span>
-        </div>
+    </div>
+    <div class="row mb-3">
+      <label for="create_date" class="col-sm-2 col-form-label">등록일</label>
+      <div class="col-sm-10">
+        <span class="form-control" id="create_date" name="create_date"
+          th:text="${#dates.format(board.createDate, 'yyyy-MM-dd')}" disabled readonly></span>
       </div>
-      <div class="row mb-3">
-        <label for="cnt" class="col-sm-2 col-form-label">조회수</label>
-        <div class="col-sm-10">
-          <span
-            class="form-control"
-            id="cnt"
-            name="cnt"
-            th:text="${board.cnt}"
-            disabled
-            readonly
-          ></span>
-        </div>
+    </div>
+    <div class="row mb-3">
+      <label for="cnt" class="col-sm-2 col-form-label">조회수</label>
+      <div class="col-sm-10">
+        <span class="form-control" id="cnt" name="cnt" th:text="${board.cnt}" disabled readonly></span>
       </div>
-      <div class="row mb-3">
-        <div class="col">
-          <input
-            type="submit"
-            class="btn btn-primary btn-sm"
-            value="게시글 수정"
-          />
-        </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <input type="submit" class="btn btn-primary btn-sm" value="게시글 수정" />
       </div>
-    </form>
-    <form
-      sec:authorize="hasRole('ROLE_ADMIN')"
-      name="deleteBoardForm"
-      action="/board/deleteBoard"
-      style="display: none"
-      method="POST"
-    >
-      <input name="seq" type="hidden" th:value="${board.seq}" />
-      <input type="submit" />
-    </form>
-    <div class="m-3">
-      <div class="row">
-        <div class="col">
-          <a class="btn btn-primary btn-sm" th:href="@{/board/insertBoard}"
-            >글등록</a
-          >
-          <a
-            class="btn btn-danger btn-sm"
-            sec:authorize="hasRole('ROLE_ADMIN')"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal"
-            >글삭제</a
-          >
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="deleteModal"
-            tabindex="-1"
-            aria-labelledby="deleteModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteModalLabel">게시글 삭제</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">해당 게시글을 삭제 하시겠습니까?</div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    아니요
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    onclick="sendDelete(event);"
-                  >
-                    예
-                  </button>
-                </div>
+    </div>
+  </form>
+  <form sec:authorize="hasRole('ROLE_ADMIN')" name="deleteBoardForm" action="/board/deleteBoard" style="display: none"
+    method="POST">
+    <input name="seq" type="hidden" th:value="${board.seq}" />
+    <input type="submit" />
+  </form>
+  <div class="m-3">
+    <div class="row">
+      <div class="col">
+        <a class="btn btn-primary btn-sm" th:href="@{/board/insertBoard}">글등록</a>
+        <a class="btn btn-danger btn-sm" sec:authorize="hasRole('ROLE_ADMIN')" data-bs-toggle="modal"
+          data-bs-target="#deleteModal">글삭제</a>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">게시글 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">해당 게시글을 삭제 하시겠습니까?</div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  아니요
+                </button>
+                <button type="button" class="btn btn-primary" onclick="sendDelete(event);">
+                  예
+                </button>
               </div>
             </div>
           </div>
-          <!-- Modal End-->
-          <a class="btn btn-primary btn-sm" th:href="@{/board/getBoardList}"
-            >글목록</a
-          >
         </div>
+        <!-- Modal End-->
+        <a class="btn btn-primary btn-sm" th:href="@{/board/getBoardList}">글목록</a>
       </div>
     </div>
-  </body>
-  <script sec:authorize="hasRole('ROLE_ADMIN')">
-    function sendDelete(event) {
-      event.preventDefault() && event.stopPropagation();
-      var form = document.forms['deleteBoardForm'];
-      form.submit();
-    }
-  </script>
-  <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+  </div>
+  <table class="table table-striped">
+    <tr>
+      <th>이름</th>
+      <th>내용</th>
+      <th>등록일</th>
+    </tr>
+
+    <tr th:each="reply, state : ${board.replyList}">
+      <td th:text="${state.count}"></td>
+      <td th:text="${reply.content}"></td>
+      <td th:text="${#dates.format(reply.createDate, 'yyyy-MM-dd')}"></td>
+    </tr>
+  </table>
+</body>
+<script sec:authorize="hasRole('ROLE_ADMIN')">
+  function sendDelete(event) {
+    event.preventDefault() && event.stopPropagation();
+    var form = document.forms['deleteBoardForm'];
+    form.submit();
+  }
+</script>
+<script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
 </html>
