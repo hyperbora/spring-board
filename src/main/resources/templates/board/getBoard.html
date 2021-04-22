@@ -165,6 +165,28 @@
         </div>
       </div>
     </div>
+    <div>
+      <p
+        class="badge bg-primary text-wrap"
+        th:text="'댓글 : [' + ${#lists.size(board.replyList)} + ']'"
+      ></p>
+    </div>
+    <div class="card" th:each="reply : ${board.replyList}">
+      <div class="card-header">
+        <div class="container p-0 m-0">
+          <div class="row">
+            <div class="col-sm" th:text="${reply.member.name}"></div>
+            <div
+              class="col-sm text-end"
+              th:text="${#dates.format(reply.createDate, 'yyyy-MM-dd HH:mm')}"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text" th:text="${reply.content}"></p>
+      </div>
+    </div>
   </body>
   <script sec:authorize="hasRole('ROLE_ADMIN')">
     function sendDelete(event) {

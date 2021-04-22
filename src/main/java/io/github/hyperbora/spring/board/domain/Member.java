@@ -35,4 +35,5 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Board> boardList = new ArrayList<>();
+
 }
