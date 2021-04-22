@@ -1,17 +1,9 @@
 package io.github.hyperbora.spring.board;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import io.github.hyperbora.spring.board.domain.Board;
-import io.github.hyperbora.spring.board.domain.Member;
-import io.github.hyperbora.spring.board.domain.Reply;
-import io.github.hyperbora.spring.board.domain.Role;
 import io.github.hyperbora.spring.board.persistence.BoardRepository;
 import io.github.hyperbora.spring.board.persistence.MemberRepository;
 import io.github.hyperbora.spring.board.persistence.ReplyRepository;
@@ -93,9 +85,8 @@ public class BoardRepositoryTest {
     // Optional<Member> member = memberRepo.findById("admin");
     // if (member.isPresent()) {
     // Member _member = member.get();
-    // List<Board> boardList = _member.getBoardList();
     // Reply reply = new Reply();
-    // reply.setBoard(boardList.get(0));
+    // reply.setBoard(boardRepo.findById(26L).get());
     // reply.setContent("댓글입니다.");
     // reply.setMember(_member);
     // replyRepo.save(reply);

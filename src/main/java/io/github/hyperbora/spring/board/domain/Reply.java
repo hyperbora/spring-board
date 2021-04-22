@@ -45,6 +45,5 @@ public class Reply {
 
     public void setMember(Member member) {
         this.member = member;
-        member.getReplyList().add(this);
     }
 }
