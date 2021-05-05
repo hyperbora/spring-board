@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,9 @@ public class Reply {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID", nullable = false, updatable = false)
     private Member member;
+
+    @Transient
+    private boolean isMine = false;
 
     public void setBoard(Board board) {
         this.board = board;

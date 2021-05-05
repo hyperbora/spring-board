@@ -180,6 +180,9 @@
               class="col-sm text-end"
               th:text="${#dates.format(reply.createDate, 'yyyy-MM-dd HH:mm')}"
             ></div>
+            <button class="col-sm btn btn-primary btn-sm" th:if="${reply.mine}">
+              삭제
+            </button>
           </div>
         </div>
       </div>
