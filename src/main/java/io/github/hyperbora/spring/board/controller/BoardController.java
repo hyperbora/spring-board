@@ -34,7 +34,19 @@ public class BoardController {
     }
 
     @GetMapping("/getBoard")
-    public String getBoard(Board board, Model model) {
+    public String getBoard(Board board, Model model, @AuthenticationPrincipal SecurityUser securityUser) {
+        final String username;
+        if (securityUser != null) {
+            username = securityUser.getUsername();
+        } else {
+            username = "";
+        }
+        board = boardService.getBoard(board);
+        board.getReplyList().stream().forEach((reply) -> {
+            if (username.equals(reply.getMember().getId())) {
+                reply.setMine(true);
+            }
+        });
         model.addAttribute("board", boardService.getBoard(board));
         return "board/getBoard";
     }
