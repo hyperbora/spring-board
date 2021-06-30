@@ -29,14 +29,11 @@ public class ReplyController {
     @PostMapping
     public String saveReply(@RequestParam long seq, Reply reply, @AuthenticationPrincipal SecurityUser securityUser) {
         Optional<Board> board = boardRepository.findById(seq);
-        if (securityUser != null) {
-            if (board.isPresent()) {
-                Board _board = board.get();
-                Member member = securityUser.getMember();
-                reply.setBoard(_board);
-                reply.setMember(member);
-                replyRepository.save(reply);
-            }
+        if (securityUser != null && board.isPresent()) {
+            Member member = securityUser.getMember();
+            reply.setBoard(board.get());
+            reply.setMember(member);
+            replyRepository.save(reply);
         }
         return "redirect:/board/getBoard?seq=" + seq;
     }
