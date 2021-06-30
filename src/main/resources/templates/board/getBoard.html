@@ -94,10 +94,9 @@
   </div>
   <div class="card mt-3" th:each="reply : ${board.replyList}">
     <div class="card-header">
-      <div class="container p-0 m-0">
+      <div class="container p-0 m-0 mw-100">
         <div class="row">
           <div class="col" th:text="${reply.member.name}"></div>
-          <div class="col-6"></div>
           <div class="col text-end">
             <span th:text="${#dates.format(reply.createDate, 'yyyy-MM-dd HH:mm')}"></span>
             <button class="btn btn-danger btn-sm" th:if="${reply.mine}">
