@@ -2,6 +2,8 @@ package io.github.hyperbora.spring.board.controller;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class ReplyController {
 
     @Autowired
     private ReplyRepository replyRepository;
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping
     public String saveReply(@RequestParam long seq, Reply reply, @AuthenticationPrincipal SecurityUser securityUser) {
