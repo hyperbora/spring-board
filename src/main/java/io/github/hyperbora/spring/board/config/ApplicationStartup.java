@@ -72,6 +72,5 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
             System.out.println("default user password : " + userPassword);
             System.out.println("default admin password : " + adminPassword);
         }
-        return;
     }
 }
