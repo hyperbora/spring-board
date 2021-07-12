@@ -41,4 +41,20 @@ public class ReplyController {
         }
         return "redirect:/board/getBoard?seq=" + seq;
     }
+
+    @PostMapping("/deleteReply")
+    public String deleteReply(@RequestParam long seq, Reply reply, @AuthenticationPrincipal SecurityUser securityUser) {
+        Optional<Reply> optionalReply = replyRepository.findById(reply.getId());
+        if (securityUser != null && optionalReply.isPresent()) {
+            Reply targetReply = optionalReply.get();
+            if (targetReply.getMember().getId().equals(securityUser.getMember().getId())) {
+                replyRepository.deleteById(targetReply.getId());
+                log.info("reply is deleted Board id : {}, Reply Id : {}", seq, reply.getId());
+            } else {
+                log.warn("abnormal reply delete action Board id : {}, Reply Id : {}, User Id : {}", seq, reply.getId(),
+                        securityUser.getMember().getId());
+            }
+        }
+        return "redirect:/board/getBoard?seq=" + seq;
+    }
 }
