@@ -99,7 +99,8 @@
           <div class="col" th:text="${reply.member.name}"></div>
           <div class="col text-end">
             <span th:text="${#dates.format(reply.createDate, 'yyyy-MM-dd HH:mm')}"></span>
-            <button class="btn btn-danger btn-sm" th:if="${reply.mine}">
+            <button class="btn btn-danger btn-sm"
+              th:if="${reply.mine} or ${#authorization.expression('hasRole(''ADMIN'')')}">
               삭제
             </button>
           </div>

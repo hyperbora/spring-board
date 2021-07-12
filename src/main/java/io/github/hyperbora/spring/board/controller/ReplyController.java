@@ -2,6 +2,8 @@ package io.github.hyperbora.spring.board.controller;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import io.github.hyperbora.spring.board.domain.Board;
 import io.github.hyperbora.spring.board.domain.Member;
 import io.github.hyperbora.spring.board.domain.Reply;
+import io.github.hyperbora.spring.board.domain.Role;
 import io.github.hyperbora.spring.board.persistence.BoardRepository;
 import io.github.hyperbora.spring.board.persistence.ReplyRepository;
 import io.github.hyperbora.spring.board.security.SecurityUser;
@@ -43,11 +46,13 @@ public class ReplyController {
     }
 
     @PostMapping("/deleteReply")
-    public String deleteReply(@RequestParam long seq, Reply reply, @AuthenticationPrincipal SecurityUser securityUser) {
+    public String deleteReply(@RequestParam long seq, Reply reply, @AuthenticationPrincipal SecurityUser securityUser,
+            HttpServletRequest request) {
         Optional<Reply> optionalReply = replyRepository.findById(reply.getId());
         if (securityUser != null && optionalReply.isPresent()) {
             Reply targetReply = optionalReply.get();
-            if (targetReply.getMember().getId().equals(securityUser.getMember().getId())) {
+            if (targetReply.getMember().getId().equals(securityUser.getMember().getId())
+                    || request.isUserInRole(Role.ROLE_ADMIN.toString())) {
                 replyRepository.deleteById(targetReply.getId());
                 log.info("reply is deleted Board id : {}, Reply Id : {}", seq, reply.getId());
             } else {
