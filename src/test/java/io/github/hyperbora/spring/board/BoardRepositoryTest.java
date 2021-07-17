@@ -56,4 +56,32 @@ public class BoardRepositoryTest {
         }
     }
 
+    @Test
+    public void testUpdate() {
+        Optional<Member> user = memberRepo.findById("user");
+        long id = 0;
+        if (user.isPresent()) {
+            Board board = new Board();
+            board.setTitle("Hello");
+            board.setContent("World");
+            board.setMember(user.get());
+            boardRepo.save(board);
+            id = board.getSeq();
+        }
+        if (id > 0L) {
+            Optional<Board> optionalBoard = boardRepo.findById(id);
+            if (optionalBoard.isPresent()) {
+                Board board = optionalBoard.get();
+                board.setTitle("New Hello");
+                board.setContent("New World");
+                boardRepo.save(board);
+            }
+            optionalBoard = boardRepo.findById(id);
+            if (optionalBoard.isPresent()) {
+                Board board = optionalBoard.get();
+                assertTrue(board.getTitle().equals("New Hello"), "Board Title Update Failed");
+                assertTrue(board.getContent().equals("New World"), "Board Content Update Failed");
+            }
+        }
+    }
 }
