@@ -1,14 +1,28 @@
 package io.github.hyperbora.spring.board;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import io.github.hyperbora.spring.board.domain.Board;
+import io.github.hyperbora.spring.board.domain.Member;
+import io.github.hyperbora.spring.board.domain.Role;
 import io.github.hyperbora.spring.board.persistence.BoardRepository;
 import io.github.hyperbora.spring.board.persistence.MemberRepository;
-import io.github.hyperbora.spring.board.persistence.ReplyRepository;
 
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureMockMvc
+@TestInstance(Lifecycle.PER_CLASS)
 public class BoardRepositoryTest {
 
     @Autowired
@@ -17,79 +31,29 @@ public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepo;
 
-    @Autowired
-    private ReplyRepository replyRepo;
+    @BeforeAll
+    public void before() {
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        Member member = new Member();
+        member.setId("user");
+        member.setName("Tom");
+        member.setPassword(encoder.encode("1q2w3e4r"));
+        member.setEnabled(true);
+        member.setRole(Role.ROLE_MEMBER);
+        memberRepo.save(member);
+    }
 
-    @Autowired
-    private PasswordEncoder encoder;
+    @Test
+    public void testInsert() {
+        Optional<Member> user = memberRepo.findById("user");
+        if (user.isPresent()) {
+            Board board = new Board();
+            board.setTitle("Hello");
+            board.setContent("World");
+            board.setMember(user.get());
+            boardRepo.save(board);
+            assertTrue(boardRepo.count() > 0);
+        }
+    }
 
-    // @Test
-    // public void testGetBoardList() {
-    // Member member = memberRepo.findById("member").get();
-
-    // System.out.println("[ " + member.getName() + "가 등록한 게시글 ]");
-    // for (Board board : member.getBoardList()) {
-    // System.out.println("---> " + board.toString());
-    // }
-    // }
-
-    // @Test
-    // public void testGetBoard() {
-    // Board board = boardRepo.findById(1L).get();
-
-    // System.out.println("[ " + board.getSeq() + "번 게시 글 상세 정보 ]");
-    // System.out.println("제목\t : " + board.getTitle());
-    // System.out.println("작성자\t : " + board.getMember().getName());
-    // System.out.println("내용 \t : " + board.getContent());
-    // System.out.println("등록일\t : " + board.getCreateDate());
-    // System.out.println("조회수 \t : " + board.getCnt());
-    // }
-
-    // @Test
-    // public void testInsert() {
-    // Member member1 = new Member();
-    // member1.setId("member");
-    // member1.setPassword(encoder.encode("member123"));
-    // member1.setName("아무개");
-    // member1.setRole(Role.ROLE_MEMBER);
-    // member1.setEnabled(true);
-    // memberRepo.save(member1);
-
-    // Member member2 = new Member();
-    // member2.setId("admin");
-    // member2.setPassword(encoder.encode("admin123"));
-    // member2.setName("홍길동");
-    // member2.setRole(Role.ROLE_ADMIN);
-    // member2.setEnabled(true);
-    // memberRepo.save(member2);
-
-    // for (int i = 1; i <= 13; i++) {
-    // Board board = new Board();
-    // board.setMember(member1);
-    // board.setTitle(member1.getName() + "가 등록한 게시글 " + i);
-    // board.setContent(member1.getName() + "가 등록한 게시글 " + i + "입니다.");
-    // boardRepo.save(board);
-    // }
-
-    // for (int i = 1; i <= 13; i++) {
-    // Board board = new Board();
-    // board.setMember(member2);
-    // board.setTitle(member2.getName() + "가 등록한 게시글 " + i);
-    // board.setContent(member2.getName() + "가 등록한 게시글 " + i + "입니다.");
-    // boardRepo.save(board);
-    // }
-    // }
-
-    // @Test
-    // public void insertReply() {
-    // Optional<Member> member = memberRepo.findById("admin");
-    // if (member.isPresent()) {
-    // Member _member = member.get();
-    // Reply reply = new Reply();
-    // reply.setBoard(boardRepo.findById(26L).get());
-    // reply.setContent("댓글입니다.");
-    // reply.setMember(_member);
-    // replyRepo.save(reply);
-    // }
-    // }
 }
