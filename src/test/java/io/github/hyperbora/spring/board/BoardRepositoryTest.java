@@ -84,4 +84,23 @@ public class BoardRepositoryTest {
             }
         }
     }
+
+    @Test
+    public void testDelete() {
+        Optional<Member> user = memberRepo.findById("user");
+        long id = 0;
+        if (user.isPresent()) {
+            Board board = new Board();
+            board.setTitle("Hello");
+            board.setContent("World");
+            board.setMember(user.get());
+            boardRepo.save(board);
+            id = board.getSeq();
+        }
+        if (id > 0L) {
+            boardRepo.deleteById(id);
+            Optional<Board> optionalBoard = boardRepo.findById(id);
+            assertTrue(optionalBoard.isEmpty(), "Board Delete Failed");
+        }
+    }
 }
