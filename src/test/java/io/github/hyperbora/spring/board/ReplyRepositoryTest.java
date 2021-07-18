@@ -110,4 +110,26 @@ public class ReplyRepositoryTest {
         }
     }
 
+    @Test
+    public void testDelete() {
+        Optional<Member> user = memberRepo.findById("user");
+        long id = 0;
+        if (user.isPresent()) {
+            Optional<Board> optionalBoard = getBoard();
+            if (optionalBoard.isPresent()) {
+                Board board = optionalBoard.get();
+                Reply reply = new Reply();
+                reply.setMember(user.get());
+                reply.setBoard(board);
+                reply.setContent("Test111 Reply");
+                replyRepo.save(reply);
+                id = reply.getId();
+            }
+        }
+        if (id > 0L) {
+            replyRepo.deleteById(id);
+        }
+        Optional<Reply> optionalReply = replyRepo.findById(id);
+        assertTrue(optionalReply.isEmpty(), "Reply Delete Failed");
+    }
 }
