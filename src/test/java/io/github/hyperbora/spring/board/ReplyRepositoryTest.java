@@ -1,5 +1,6 @@
 package io.github.hyperbora.spring.board;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
@@ -54,16 +55,20 @@ public class ReplyRepositoryTest {
         boardRepo.save(board);
     }
 
+    private Optional<Board> getBoard() {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        QBoard qboard = QBoard.board;
+
+        builder.and(qboard.title.eq("Test Title"));
+        return boardRepo.findOne(builder);
+    }
+
     @Test
     public void testInsert() {
         Optional<Member> user = memberRepo.findById("user");
         if (user.isPresent()) {
-            BooleanBuilder builder = new BooleanBuilder();
-
-            QBoard qboard = QBoard.board;
-
-            builder.and(qboard.title.eq("Test Title"));
-            Optional<Board> optionalBoard = boardRepo.findOne(builder);
+            Optional<Board> optionalBoard = getBoard();
             if (optionalBoard.isPresent()) {
                 Board board = optionalBoard.get();
                 Reply reply = new Reply();
@@ -75,4 +80,34 @@ public class ReplyRepositoryTest {
             }
         }
     }
+
+    @Test
+    public void testUpdate() {
+        Optional<Member> user = memberRepo.findById("user");
+        if (user.isPresent()) {
+            Optional<Board> optionalBoard = getBoard();
+            if (optionalBoard.isPresent()) {
+                Board board = optionalBoard.get();
+                Reply reply = new Reply();
+                reply.setMember(user.get());
+                reply.setBoard(board);
+                reply.setContent("Test Reply");
+                replyRepo.save(reply);
+            }
+        }
+        Optional<Board> optionalBoard = getBoard();
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            Reply reply = board.getReplyList().get(0);
+            reply.setContent("New Reply");
+            replyRepo.save(reply);
+        }
+        optionalBoard = getBoard();
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            Reply reply = board.getReplyList().get(0);
+            assertEquals(reply.getContent(), "New Reply", "Reply Update Failed");
+        }
+    }
+
 }
